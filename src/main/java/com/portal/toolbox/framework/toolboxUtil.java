@@ -40,12 +40,13 @@ public class toolboxUtil extends AbstractPage {
         loginPage.loginButton().click();
     }
 
+
     public void startNewApplication(String personalDetails, String organizationDetail, String businessDetails, String businessfinancials, String teamDetals, String manageAccounts) {
         waitForPageLoad();
         waitForMoreTime();
-        startNewApplication.startnewapplicationButton().click();
-        startNewApplication.agreementCheckbox().click();
-        startNewApplication.letStartButton().click();
+//        startNewApplication.startnewapplicationButton().click();
+//        startNewApplication.agreementCheckbox().click();
+//        startNewApplication.letStartButton().click();
         getStarted(personalDetails, organizationDetail);
         businessContact(businessDetails);
         businessfinancials(businessfinancials);
@@ -255,6 +256,139 @@ public class toolboxUtil extends AbstractPage {
         } while (actualAmount != businessValue);
     }
 
+
+// # Newly created
+
+//-----------------------------------------------------------------
+
+    public void agreement() {
+        waitForPageLoad();
+        waitForMoreTime();
+        startNewApplication.startnewapplicationButton().click();
+        startNewApplication.agreementCheckbox().click();
+        startNewApplication.letStartButton().click();
+
+    }
+
+    public void yourbusiness(String businessfinancials, String businesspayment, String businessaccount) {
+
+
+        int businessValue = Integer.parseInt(businessfinancials.split(",")[0]);
+        setBusinessValue(businessValue);
+        new Select(yourBusinessPage.selectStartTradingMonth()).selectByVisibleText(businessfinancials.split(",")[1]);
+        new Select(yourBusinessPage.selectStartTradingYear()).selectByVisibleText(businessfinancials.split(",")[2]);
+        new Select(yourBusinessPage.selectMonthAtFinancialYearEnds()).selectByVisibleText(businessfinancials.split(",")[3]);
+        yourBusinessPage.totalNumberOfEmployees().sendKeys(businessfinancials.split(",")[4]);
+        yourBusinessPage.sicDescription().sendKeys(businessfinancials.split(",")[5]);
+        waitForPageLoad();
+        yourBusinessPage.sicOption().click();
+        yourBusinessPage.describeHowYouDoAndOperate().sendKeys(RandomGenerator.randomString(120));
+        yourBusinessPage.radioBusinessNotFacingLegalProceedings().click();
+        yourBusinessPage.nextButton().click();
+        waitForPageLoad();
+        waitForMoreTime();
+
+//        Type of payment
+        if ((businesspayment.split(",")[0]).equals("AllTransferNoCash")) {
+            waitForPageLoad();
+            waitForMoreTime();
+            waitForMoreTime();
+            yourBusinessPage.checkBoxTransfersFromUKBanks().click();
+            yourBusinessPage.checkBoxCheques().click();
+            yourBusinessPage.checkBoxCardPayments().click();
+            yourBusinessPage.checkBoxDirectDebitAndStandingOrders().click();
+        }
+
+//        else if() { }
+        yourBusinessPage.radioBusinessIsNotSeasonal().click();
+        yourBusinessPage.radioBusinessDoesNotSendOrReceiveInternationalPayments().click();
+        new Select(yourBusinessPage.selectCountryBusinessOwnsAssets()).selectByVisibleText(businesspayment.split(",")[4]);
+        yourBusinessPage.radioBusinessIsNotRegisteredToPayTaxOutsideUK().click();
+        yourBusinessPage.nextButton().click();
+
+        waitForPageLoad();
+        if ((businessaccount.split(",")[0]).equals("existingbusrelationshipNo")) {
+            yourBusinessPage.radioHasNoExistingRelationshipWithNatwest().click();
+        }
+        if ((businessaccount.split(",")[1]).equals("SwitchYourBusinessAccountToUsNo")) {
+            yourBusinessPage.radioSwitchYourBusinessAccountToUsNo().click();
+        }
+        if ((businessaccount.split(",")[2]).equals("MoneyComingInNo")) {
+            yourBusinessPage.radioIsMoneyComingInNo().click();
+        }
+        yourBusinessPage.nextButton().click();
+    }
+
+
+    public void youteam(String teamdetails, String acountpermission) {
+        waitForPageLoad();
+
+        new Select(yourTeamPage.selectDateOfBirth()).selectByVisibleText(teamdetails.split(",")[0]);
+        new Select(yourTeamPage.selectMonthOfBirth()).selectByVisibleText(teamdetails.split(",")[1]);
+        new Select(yourTeamPage.selectYearOfBirth()).selectByVisibleText(teamdetails.split(",")[2]);
+        yourTeamPage.enterEmailId().sendKeys(RandomGenerator.randomEmailAddress(6));
+        new Select(yourTeamPage.selectCountryCode()).selectByVisibleText(teamdetails.split(",")[3]);
+        yourTeamPage.enterMobileNumber().sendKeys(RandomGenerator.randomInteger(10));
+        //Enter Additional Information
+        if ((teamdetails.split(",")[4]).equalsIgnoreCase("Male"))
+            yourTeamPage.radioGenderMale().click();
+        else
+            yourTeamPage.radioGenderFeMale().click();
+        new Select(yourTeamPage.selectCountryOfBirth()).selectByVisibleText(teamdetails.split(",")[5]);
+        yourTeamPage.enterBirthTown().sendKeys((teamdetails.split(",")[6]));
+
+        //for radio button of NATWEST account
+        if ((teamdetails.split(",")[7]).equalsIgnoreCase("personalaccountYes"))
+            yourTeamPage.radioHoldNatwestAccYes().click();
+        else
+            yourTeamPage.radioHoldNatwestAccNo().click();
+        new Select(yourTeamPage.selectMonthOfStartingWork()).selectByVisibleText(teamdetails.split(",")[8]);
+        new Select(yourTeamPage.selectYearOfStartingWork()).selectByVisibleText(teamdetails.split(",")[9]);
+        //Are you registered to pay tax outside of the UK?
+        if ((teamdetails.split(",")[10]).equalsIgnoreCase("PayTaxOutUKYes"))
+            yourTeamPage.radioRegisteredToPayTaxOutUKYes().click();
+        else
+            yourTeamPage.radioRegisteredToPayTaxOutUKNo().click();
+        //nationality
+        new Select(yourTeamPage.selectNationality()).selectByVisibleText((teamdetails.split(",")[11]));
+        //building number
+        yourTeamPage.enterBuildingNumber().sendKeys(teamdetails.split(",")[12]);
+        yourTeamPage.enterPostCode().sendKeys(teamdetails.split(",")[13]);
+        yourTeamPage.homeAddressSeachButton().click();
+        new Select(yourTeamPage.selectMonthMovingIntoAddress()).selectByVisibleText("July");
+        new Select(yourTeamPage.selectYearMovingIntoAddress()).selectByVisibleText("2014");
+        yourTeamPage.nextButton().click();
+    }
+
+
+    public void manageyouraccounts(String accountservices, String addtionalproducts) {
+
+        waitForPageLoad();
+        waitForMoreTime();
+        if (accountservices.split(",")[0].equalsIgnoreCase("checkPaperStatementsYes")) {
+            manageAccountPage.checkPaperStatements().click();
+            new Select(manageAccountPage.selectStatementFrequency()).selectByVisibleText(accountservices.split(",")[1]);
+            manageAccountPage.selectPreferedStatementDate("6");
+            new Select(manageAccountPage.selectAccessibleOptions()).selectByVisibleText("None");
+
+        }
+        if (accountservices.split(",")[2].equalsIgnoreCase("checkPayingInBookYes")) {
+            manageAccountPage.checkPayingInBook().click();
+        }
+        if (accountservices.split(",")[3].equalsIgnoreCase("checkChequeBookYes")) {
+            manageAccountPage.checkChequeBook().click();
+        }
+
+        if (accountservices.split(",")[4].equalsIgnoreCase("radioAdditionalAccYes")) {
+            manageAccountPage.radioAdditionalAccYes();
+            manageAccountPage.enterAccName().sendKeys(RandomGenerator.randomInteger(7));
+        } else {
+            manageAccountPage.radioAdditionalAccNo().click();
+        }
+        manageAccountPage.nextButton().click();
+
+        enterAdditionalProducts(addtionalproducts);
+    }
 
 }
 

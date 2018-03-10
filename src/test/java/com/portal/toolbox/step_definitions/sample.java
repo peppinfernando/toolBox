@@ -36,6 +36,7 @@ public class sample extends BaseStepDef {
     @When("^I login with '(.+)' to the application and navigate to homepage$")
     public void iLoginWithCredencialsToTheApplicationAndNavigateToHomepage(String credencials) throws Throwable {
         toolboxUtil.login(credencials);
+        toolboxUtil.agreement();
     }
 
     @And("^I start New application and enter '(.+)','(.+)','(.+)','(.+)','(.+)'and'(.+)'information$")
@@ -47,4 +48,38 @@ public class sample extends BaseStepDef {
     public void iShouldGetNavigateManageaccountPage() throws Throwable {
         System.out.println("test completed");
     }
+
+    @When("^Customer login with '(.+)' to the application and navigate to homepage$")
+    public void CustomerLoginWithCredencialsToTheApplicationAndNavigateToHomepage(String credencials) throws Throwable {
+        toolboxUtil.login(credencials);
+    }
+
+
+    @And("^enter personal details as '(.+)' select entity as '(.+)' and fill business contact as '(.+)' in getting started pages$")
+    public void enterPersonalDetailsAsPersonaldetailsSelectEntityAsEntityAndFillBusinessContactAsBusiness_contactdetailsInGettingStartedPages(String personaldetails, String entity, String business_contactdetails) throws Throwable {
+        toolboxUtil.getStarted(personaldetails, entity);
+        toolboxUtil.businessContact(business_contactdetails);
+    }
+
+
+    @And("^enter financial details as '(.+)' , payment details as '(.+)' and '(.+)'in your business pages$")
+    public void enterFinancialDetailsAsBusinessfinancialsPaymentDetailsAsBusinesspaymentAndBusinessaccoutInYourBusinessPages(String businessfinancials, String businesspayment, String businessaccount) throws Throwable {
+
+        toolboxUtil.yourbusiness(businessfinancials, businesspayment, businessaccount);
+
+    }
+
+    @And("^enter team details as '(.+)' in your team section and '(.+)' detail in manage account section$")
+    public void enterTeamDetailsAsTeamdetailsInYourTeamSectionAndAccountpermissionDetailInManageAccountSection(String teamdetails, String acountpermission) throws Throwable {
+        toolboxUtil.youteam(teamdetails, acountpermission);
+    }
+
+
+    @And("^select account services options as '(.+)' and select '(.+)' option$")
+    public void selectAccountServicesOptionsAsAccountservicesAndSelectAddtionalproductsOption(String accountservices, String addtionalproducts) throws Throwable {
+        toolboxUtil.manageyouraccounts(accountservices, addtionalproducts);
+    }
+
+
+
 }
