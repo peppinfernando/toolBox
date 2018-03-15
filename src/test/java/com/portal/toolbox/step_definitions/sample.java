@@ -7,6 +7,10 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import com.portal.toolbox.framework.toolboxUtil;
+import cucumber.api.DataTable;
+import java.util.*;
+import com.google.common.collect.Iterables;
+import net.thucydides.core.reports.adaptors.specflow.ScenarioStep;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class sample extends BaseStepDef {
 
     private toolboxUtil toolboxUtil = new toolboxUtil();
+    myPojo pojo;
 
     @Given("^I launch '(.+)' Business Onboarding & Account Opening application$")
     public void iLaunchNatewestBusinessOnboardingAccountOpeningApplication(String brandName) throws Throwable {
@@ -65,7 +70,11 @@ public class sample extends BaseStepDef {
     @And("^enter financial details as '(.+)' , payment details as '(.+)' and '(.+)'in your business pages$")
     public void enterFinancialDetailsAsBusinessfinancialsPaymentDetailsAsBusinesspaymentAndBusinessaccoutInYourBusinessPages(String businessfinancials, String businesspayment, String businessaccount) throws Throwable {
 
-        toolboxUtil.yourbusiness(businessfinancials, businesspayment, businessaccount);
+//        toolboxUtil.yourbusiness(businessfinancials, businesspayment, businessaccount);
+
+        toolboxUtil.businessFinancials(businessfinancials);
+        toolboxUtil.businessPayments(businesspayment);
+        toolboxUtil.businessAccount(businessaccount);
 
     }
 
@@ -80,6 +89,27 @@ public class sample extends BaseStepDef {
         toolboxUtil.manageyouraccounts(accountservices, addtionalproducts);
     }
 
+
+    @When("^I login with to the application using below credentials and navigate to homepage$")
+    public void loginToApp(DataTable arg1) {
+        List<Map<String, String>> data = arg1.asMaps(String.class, String.class);
+       // data = Iterables.getLast(data);
+        System.out.println(data.get(0).get("username"));
+
+    }
+
+
+
+    @When("^enter personal,entity details as$")
+    public void personaldetails(List<myPojo> persnaldetaislList ) {
+        pojo=Iterables.getLast(persnaldetaislList);
+        System.out.println(pojo.getFirstName());
+
+
+
+
+
+    }
 
 
 }

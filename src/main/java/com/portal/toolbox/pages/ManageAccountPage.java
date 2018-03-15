@@ -48,7 +48,15 @@ public class ManageAccountPage extends AbstractPage {
     }
 
     public WebElement checkChequeBook() {
-        return waitAndFindElement(By.id("cheque-book"));
+        return checkForElement(By.id("cheque-book"));
+    }
+
+    public WebElement enterNameOnChequeBook() {
+        return checkForElement(By.id("name-on-cheque-book-line1"));
+    }
+
+    public WebElement enterAdditionalNameChequeBook() {
+        return checkForElement(By.id("name-on-cheque-book-line2"));
     }
 
     public WebElement nextButton() {
@@ -78,5 +86,58 @@ public class ManageAccountPage extends AbstractPage {
     public WebElement checkFreeAgent() {
         return waitAndFindElement(By.id("free-agent"));
     }
+
+    public WebElement signatoryOptions() {
+        return checkForElement(By.id("signatory-options"));
+    }
+
+    public WebElement radioSignatoriesForUnlimitedAmountsYes() {
+        return checkForElement(By.id("sign-for-unlimitted-option-0"));
+    }
+    public WebElement radioSignatoriesForUnlimitedAmountsNo() {
+        return checkForElement(By.id("sign-for-unlimitted-option-1"));
+    }
+    public WebElement radiolimitOnMoneyNo() {
+        return checkForElement(By.id("has-signatory-groups-limit-option-1"));
+    }
+
+    public WebElement radiolimitOnMoneyYes() {
+        return checkForElement(By.id("has-signatory-groups-limit-option-0"));
+    }
+
+
+    public WebElement radioSignatoryGroupsYes() {
+        return checkForElement(By.id("hasSigningGroups-option-0"));
+    }
+    public WebElement txtSignatoryGroupLimit() {
+        return checkForElement(By.id("signing-groups-limit"));
+    }
+    public WebElement radioSignatoryGroupsNo() {
+        return checkForElement(By.id("hasSigningGroups-option-1"));
+
+    }
+    public WebElement txtotherSigningRules() {
+        return checkForElement(By.id("other-signing-rules"));
+    }
+
+    public WebElement radiofurtherInformationNo() {
+        return checkForElement(By.id("will-apply-to-future-accounts-option-1"));
+
+
+    }
+    public WebElement radiofurtherInformationYes() {
+        return waitAndFindElement(By.name("will-apply-to-future-accounts-option-0"));
+
+
+    }
+    public WebElement txtCreateGroupName() {
+        return waitAndFindElement(By.id("group-0"));
+
+    }
+
+    public WebElement checkboxApplyForBusinessReserveDepositAccount() {
+        return checkForElement(By.id("debit-account"));
+    }
+
 
 }

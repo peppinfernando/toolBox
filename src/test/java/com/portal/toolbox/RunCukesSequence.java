@@ -30,15 +30,15 @@ import java.io.File;
 //        excludeCoverageTags = {"@flaky" },
 //        includeCoverageTags = {"@passed" },
 //        outputFolder = "target")
-
+@RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber",
                 "junit:target/junit_cucumber.xml",
-                "json:target/cucumber_reports/regression_results/cucumber.json",
-                "com.cucumber.listener.ExtentCucumberFormatter:target/Extentreport.html"},
+                "json:target/cucumber_reports/regression_results/cucumber.json"},
         format = {"html:target/site/cucumber-pretty"},
-        features = "src/test/resources/features",
-        tags = {"~@wip", "~@manual"},
+      // features = "src/test/resources/features/sample.feature",
+        features = "src/test/resources/features/AllFeatures.feature",
+        tags = {"@CreditCardForClubsSocieties"},
         monochrome = true,
 
         snippets = SnippetType.CAMELCASE)

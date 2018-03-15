@@ -548,8 +548,10 @@
                             <parallelScheme>FEATURE</parallelScheme>
                             <!-- Excluded tags (~@notMe) are ignored. -->
                             <tags>
-                                <tag>~@manual</tag>
-                                <tag>~@wip</tag>
+                                <!--<tag>~@manual</tag>
+                                <tag>~@wip</tag>-->
+                                <tag>@CreditCardForTrust</tag>
+
                             </tags>
                         </configuration>
                     </execution>

@@ -1,6 +1,7 @@
 package com.portal.toolbox.hooks;
 
 import com.portal.toolbox.BaseStepDef;
+import com.portal.toolbox.Util.GlobalVariables;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -44,7 +45,8 @@ public class ScreenShotHook extends BaseStepDef {
      * </p>
      */
     @Before()
-    public void beforeScenario() {
+    public void beforeScenario(Scenario scenario) {
+        GlobalVariables.scenarioname=scenario.getName();
         getDriver().manage().window().maximize();
     }
 

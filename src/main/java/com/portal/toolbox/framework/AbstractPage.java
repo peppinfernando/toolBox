@@ -1,22 +1,24 @@
 package com.portal.toolbox.framework;
 
 import com.google.common.base.Function;
+import com.portal.toolbox.Util.GlobalVariables;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.*;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-public class AbstractPage {
+
+public class AbstractPage  {
 
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractPage.class);
     private static final int DRIVER_WAIT_TIME = 15;
@@ -31,6 +33,7 @@ public class AbstractPage {
 
         new WebDriverDiscovery();
         getDriver = WebDriverDiscovery.getRemoteWebDriver();
+        new GlobalVariables();
     }
 
     private static Function<WebDriver, WebElement> presenceOfElementLocated(final By locator) {
@@ -132,10 +135,24 @@ public class AbstractPage {
         wait.until(this.visibilityOfElementLocated(by));
         return getDriver.findElement(by);
     }
+    public WebElement checkForPresenceOfElement(By by, int timeout) {
 
+
+        try{
+            getDriver.findElement(by).isDisplayed();
+            return getDriver.findElement(by);
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
     public WebElement waitAndFindElement(By by) {
         getDriver.executeScript("window.onbeforeunload = function(e){};", new Object[0]);
         return this.waitForExpectedElement(by, 5);
+    }
+    public WebElement checkForElement(By by) {
+        getDriver.executeScript("window.onbeforeunload = function(e){};", new Object[0]);
+        return this.checkForPresenceOfElement(by, 5);
     }
 
     public WebElement findEnabledElement(By by) {
@@ -209,6 +226,14 @@ public class AbstractPage {
     public void waitForMoreTime() {
         try {
             Thread.sleep(1000L);
+        } catch (InterruptedException var2) {
+            LOG.error(var2.getMessage());
+        }
+
+    }
+    public void waitForMoreTime(int Value) {
+        try {
+            Thread.sleep(Value*1000L);
         } catch (InterruptedException var2) {
             LOG.error(var2.getMessage());
         }
@@ -333,6 +358,8 @@ public class AbstractPage {
 
     }
 
+
+
     public void closeTabByIndex(int iWindowIndex) {
         Set<String> handles = getDriver.getWindowHandles();
         if (handles.size() > iWindowIndex) {
@@ -412,5 +439,82 @@ public class AbstractPage {
             super(msg);
         }
     }
+    public boolean isElementDisplayed(WebElement element){
+
+        try{
+            element.isDisplayed();
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+
+
+    }
+
+
+
+    public void logCaseDeatils(String entity) {
+
+        String title=getDriver.getTitle();
+        String caseid=title.split("-")[0];
+        GlobalVariables.entityname=entity.split(",")[0];
+        String Scenario=GlobalVariables.scenarioname;
+
+
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+        String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+
+
+        try {
+            File file = new File(System.getProperty("user.dir") + "//Caseids.txt");
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            // true = append file
+            fw = new FileWriter(file.getAbsoluteFile(), true);
+            bw = new BufferedWriter(fw);
+
+            bw.write(sdf.format(cal.getTime()));
+            bw.newLine();
+            bw.write("Entity name : " + entity);
+            bw.newLine();
+            bw.write(Scenario + " : " + caseid);
+            bw.newLine();
+            bw.write("*****************************************************************************");
+            bw.newLine();
+
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (bw != null)
+                    bw.close();
+
+                if (fw != null)
+                    fw.close();
+
+            } catch (IOException ex) {
+
+                ex.printStackTrace();
+
+            }
+
+
+        }
+    }
+
+
 
 }
